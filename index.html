@@ -3,108 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>প্র প্রবাসী সেবা পোর্টাল</title>
-    <!-- Tailwind CSS CDN -->
+    <title>প্রবাসী সেবা পোর্টাল</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body class="bg-gray-100 font-sans">
 
     <!-- Navbar -->
-    <nav class="bg-blue-600 text-white p-4 shadow-md">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-xl font-bold">🌍 প্রবাসী ওয়ান-স্টপ পোর্টাল</h1>
-            <span class="text-sm bg-blue-700 px-3 py-1 rounded">সাপোর্ট ২৪/৭</span>
+    <nav class="bg-blue-600 text-white p-4 shadow-md flex justify-between items-center">
+        <h1 class="text-xl font-bold">🌍 প্রবাসী ওয়ান-স্টপ পোর্টাল</h1>
+        <div id="navUser" class="hidden flex items-center gap-4">
+            <span id="welcomeUser" class="text-sm bg-blue-700 px-3 py-1 rounded"></span>
+            <button onclick="logout()" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-600">লগআউট</button>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <div class="container mx-auto max-w-2xl mt-10 p-6 bg-white rounded-xl shadow-lg">
-        <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">অনলাইন ভিসা ও পেপারস চেকার</h2>
+    <!-- Main Container -->
+    <div class="container mx-auto max-w-md mt-10 p-6 bg-white rounded-xl shadow-lg">
 
-        <!-- Form -->
-        <div class="space-y-4">
-            <div>
-                <label class="block text-gray-700 font-medium mb-2">সেবার ধরণ নির্বাচন করুন</label>
-                <select id="serviceType" class="w-full p-3 border rounded-lg focus:outline-blue-500">
-                    <option value="Visa Check">ভিসা স্ট্যাটাস চেক (Global Visa)</option>
-                    <option value="Iqama Check">আকামা স্ট্যাটাস চেক</option>
-                    <option value="Passport Renewal">পাসপোর্ট রিনিউয়াল গাইড ও স্ট্যাটাস</option>
-                </select>
+        <!-- ১. লগইন সেকশন -->
+        <div id="loginSection">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">প্রবেশ করুন (Login)</h2>
+            <div class="space-y-4">
+                <input type="email" id="loginEmail" placeholder="ইমেইল এড্রেস" class="w-full p-3 border rounded-lg">
+                <input type="password" id="loginPassword" placeholder="পাসওয়ার্ড" class="w-full p-3 border rounded-lg">
+                <button onclick="login()" class="w-full bg-blue-600 text-white p-3 rounded-lg font-bold hover:bg-blue-700">লগইন</button>
+                <p class="text-center text-sm text-gray-600 mt-3">অ্যাকাউন্ট নেই? <a href="#" onclick="showRegister()" class="text-blue-600 font-bold">রেজিস্ট্রেশন করুন</a></p>
             </div>
-
-            <div>
-                <label class="block text-gray-700 font-medium mb-2">পাসপোর্ট নম্বর বা ট্র্যাকিং আইডি</label>
-                <input type="text" id="trackingNumber" placeholder="যেমন: A02345678" class="w-full p-3 border rounded-lg focus:outline-blue-500">
-            </div>
-
-            <button onclick="checkStatus()" class="w-full bg-blue-600 text-white p-3 rounded-lg font-bold hover:bg-blue-700 transition">
-                স্ট্যাটাস চেক করুন (৫০ টাকা ফি)
-            </button>
         </div>
 
-        <!-- Result Box -->
-        <div id="resultBox" class="mt-6 p-4 bg-gray-50 border rounded-lg hidden">
-            <h3 class="font-bold text-lg text-blue-600 mb-2">ফলাফল:</h3>
-            <p id="resultText" class="text-gray-700"></p>
-            <button id="payBtn" onclick="makePayment()" class="mt-4 bg-green-600 text-white px-4 py-2 rounded-lg hidden hover:bg-green-700">
-                বিকাশ/নগদ পেমেন্ট সম্পন্ন করুন
-            </button>
+        <!-- ২. রেজিস্ট্রেশন সেকশন (লুকাণো থাকবে) -->
+        <div id="registerSection" class="hidden">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">নতুন অ্যাকাউন্ট তৈরি</h2>
+            <div class="space-y-4">
+                <input type="text" id="regName" placeholder="আপনার নাম" class="w-full p-3 border rounded-lg">
+                <input type="email" id="regEmail" placeholder="ইমেইল এড্রেস" class="w-full p-3 border rounded-lg">
+                <input type="password" id="regPassword" placeholder="পাসওয়ার্ড" class="w-full p-3 border rounded-lg">
+                <button onclick="register()" class="w-full bg-green-600 text-white p-3 rounded-lg font-bold hover:bg-green-700">রেজিস্ট্রেশন</button>
+                <p class="text-center text-sm text-gray-600 mt-3">আগে থেকেই অ্যাকাউন্ট আছে? <a href="#" onclick="showLogin()" class="text-blue-600 font-bold">লগইন করুন</a></p>
+            </div>
         </div>
+
+        <!-- ৩. ইউজার ড্যাশবোর্ড (লগইন করার পর দেখাবে) -->
+        <div id="dashboardSection" class="hidden">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">🏠 প্রবাসী ড্যাশবোর্ড</h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-gray-700 font-medium mb-1">সেবার ধরণ</label>
+                    <select id="serviceType" class="w-full p-3 border rounded-lg">
+                        <option value="Visa Check">গ্লোবাল ভিসা স্ট্যাটাস চেক</option>
+                        <option value="Iqama Check">আকামা স্ট্যাটাস চেক</option>
+                        <option value="Passport Renewal">পাসপোর্ট রিনিউয়াল স্ট্যাটাস</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 font-medium mb-1">পাসপোর্ট বা ট্র্যাকিং নম্বর</label>
+                    <input type="text" id="trackingNumber" placeholder="যেমন: A02345678" class="w-full p-3 border rounded-lg">
+                </div>
+
+                <button onclick="checkStatus()" class="w-full bg-blue-600 text-white p-3 rounded-lg font-bold hover:bg-blue-700">স্ট্যাটাস চেক করুন (ফি: ৫০ টাকা)</button>
+            </div>
+
+            <!-- ফলাফল বক্স -->
+            <div id="resultBox" class="mt-6 p-4 bg-gray-50 border rounded-lg hidden">
+                <h3 class="font-bold text-lg text-blue-600 mb-2">ফলাফল:</h3>
+                <p id="resultText" class="text-gray-700"></p>
+            </div>
+        </div>
+
     </div>
 
-    <!-- Script -->
+    <!-- JavaScript লজিক -->
     <script>
+        const backendUrl = 'http://localhost:3000/api';
+
+        function showRegister() {
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('registerSection').classList.remove('hidden');
+        }
+
+        function showLogin() {
+            document.getElementById('registerSection').classList.add('hidden');
+            document.getElementById('loginSection').classList.remove('hidden');
+        }
+
+        async function register() {
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+
+            if(!name || !email || !password) {
+                alert('সবগুলো ঘর পূরণ করুন!');
+                return;
+            }
+
+            const res = await fetch(`${backendUrl}/register`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, password })
+            });
+            const data = await res.json();
+            alert(data.message);
+            if(data.success) showLogin();
+        }
+
+        async function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            const res = await fetch(`${backendUrl}/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
+            const data = await res.json();
+
+            if(data.success) {
+                alert(data.message);
+                // ড্যাশবোর্ড দেখান
+                document.getElementById('loginSection').classList.add('hidden');
+                document.getElementById('dashboardSection').classList.remove('hidden');
+                document.getElementById('navUser').classList.remove('hidden');
+                document.getElementById('welcomeUser').innerText = `স্বাগতম, ${data.user.name}`;
+            } else {
+                alert(data.message);
+            }
+        }
+
+        function logout() {
+            document.getElementById('dashboardSection').classList.add('hidden');
+            document.getElementById('loginSection').classList.remove('hidden');
+            document.getElementById('navUser').classList.add('hidden');
+            document.getElementById('loginEmail').value = '';
+            document.getElementById('loginPassword').value = '';
+        }
+
         async function checkStatus() {
             const serviceType = document.getElementById('serviceType').value;
             const trackingNumber = document.getElementById('trackingNumber').value;
             const resultBox = document.getElementById('resultBox');
             const resultText = document.getElementById('resultText');
-            const payBtn = document.getElementById('payBtn');
 
             if (!trackingNumber) {
-                alert('দয়া করে ট্র্যাকিং বা পাসপোর্ট নম্বর লিখুন।');
+                alert('ট্র্যাকিং নম্বর লিখুন।');
                 return;
             }
 
             resultBox.classList.remove('hidden');
-            resultText.innerHTML = 'চেক করা হচ্ছে, দয়া করে অপেক্ষা করুন...';
+            resultText.innerHTML = 'চেক করা হচ্ছে...';
 
-            try {
-                const response = await fetch('http://localhost:3000/api/check-status', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ serviceType, trackingNumber })
-                });
-                const data = await response.json();
+            const res = await fetch(`${backendUrl}/check-status`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ serviceType, trackingNumber })
+            });
+            const data = await res.json();
 
-                if (data.success) {
-                    resultText.innerHTML = `
-                        <b>সেবা:</b> ${data.service}<br>
-                        <b>নম্বর:</b> ${data.number}<br>
-                        <b>স্ট্যাটাস:</b> <span class="text-green-600 font-bold">${data.status}</span><br>
-                        <b>মেয়াদ শেষ:</b> ${data.expiryDate}<br>
-                        <b>বার্তা:</b> ${data.message}
-                    `;
-                    payBtn.classList.remove('hidden');
-                } else {
-                    resultText.innerHTML = `<span class="text-red-500">${data.message}</span>`;
-                }
-            } catch (error) {
-                resultText.innerHTML = `<span class="text-red-500">সার্ভার কানেকশন এরর! দয়া করে ব্যাকএন্ড চালু করুন।</span>`;
-            }
-        }
-
-        async function makePayment() {
-            try {
-                const response = await fetch('http://localhost:3000/api/process-payment', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ amount: 50, paymentMethod: 'bKash', userNumber: '017XXXXXXXX' })
-                });
-                const data = await response.json();
-                alert(data.message + ' (TrxID: ' + data.transactionId + ')');
-            } catch (error) {
-                alert('পেমেন্ট প্রসেস করতে সমস্যা হয়েছে।');
+            if (data.success) {
+                resultText.innerHTML = `
+                    <b>সেবা:</b> ${data.service}<br>
+                    <b>নম্বর:</b> ${data.number}<br>
+                    <b>স্ট্যাটাস:</b> <span class="text-green-600 font-bold">${data.status}</span><br>
+                    <b>মেয়াদ:</b> ${data.expiryDate}<br>
+                    <b>বার্তা:</b> ${data.message}
+                `;
             }
         }
     </script>
