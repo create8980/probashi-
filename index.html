@@ -3,172 +3,533 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>প্রবাসী সেবা পোর্টাল</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <title>ProbashiHub - প্রবাসীদের জন্য সব সেবা</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-gray-100 font-sans">
 
-    <!-- Navbar -->
-    <nav class="bg-blue-600 text-white p-4 shadow-md flex justify-between items-center">
-        <h1 class="text-xl font-bold">🌍 প্রবাসী ওয়ান-স্টপ পোর্টাল</h1>
-        <div id="navUser" class="hidden flex items-center gap-4">
-            <span id="welcomeUser" class="text-sm bg-blue-700 px-3 py-1 rounded"></span>
-            <button onclick="logout()" class="bg-red-500 px-3 py-1 rounded text-sm hover:bg-red-600">লগআউট</button>
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header class="header">
+
+    <div class="container navbar">
+
+        <a href="index.html" class="logo">
+            🌍 Probashi<span>Hub</span>
+        </a>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="visa.html">Visa</a>
+            <a href="jobs.html">Jobs</a>
+            <a href="flights.html">Air Ticket</a>
+            <a href="#countries">Countries</a>
+        </nav>
+
+        <a href="login.html" class="login-btn">
+            Login
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="container hero-content">
+
+        <div class="hero-text">
+
+            <div class="badge">
+                🇧🇩 Bangladesh → 🌍 World
+            </div>
+
+            <h1>
+                বিদেশ যাওয়ার সব সেবা
+                <br>
+                <span>এক জায়গায়</span>
+            </h1>
+
+            <p>
+                ভিসা তথ্য, বিদেশি চাকরি, এয়ার টিকিট,
+                ডকুমেন্ট এবং প্রবাসী সহায়তা —
+                সবকিছু এক প্ল্যাটফর্মে।
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="jobs.html" class="btn primary">
+                    💼 চাকরি খুঁজুন
+                </a>
+
+                <a href="visa.html" class="btn secondary">
+                    🛂 ভিসা দেখুন
+                </a>
+
+            </div>
+
         </div>
-    </nav>
 
-    <!-- Main Container -->
-    <div class="container mx-auto max-w-md mt-10 p-6 bg-white rounded-xl shadow-lg">
 
-        <!-- ১. লগইন সেকশন -->
-        <div id="loginSection">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">প্রবেশ করুন (Login)</h2>
-            <div class="space-y-4">
-                <input type="email" id="loginEmail" placeholder="ইমেইল এড্রেস" class="w-full p-3 border rounded-lg">
-                <input type="password" id="loginPassword" placeholder="পাসওয়ার্ড" class="w-full p-3 border rounded-lg">
-                <button onclick="login()" class="w-full bg-blue-600 text-white p-3 rounded-lg font-bold hover:bg-blue-700">লগইন</button>
-                <p class="text-center text-sm text-gray-600 mt-3">অ্যাকাউন্ট নেই? <a href="#" onclick="showRegister()" class="text-blue-600 font-bold">রেজিস্ট্রেশন করুন</a></p>
-            </div>
-        </div>
+        <!-- SEARCH BOX -->
 
-        <!-- ২. রেজিস্ট্রেশন সেকশন (লুকাণো থাকবে) -->
-        <div id="registerSection" class="hidden">
-            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">নতুন অ্যাকাউন্ট তৈরি</h2>
-            <div class="space-y-4">
-                <input type="text" id="regName" placeholder="আপনার নাম" class="w-full p-3 border rounded-lg">
-                <input type="email" id="regEmail" placeholder="ইমেইল এড্রেস" class="w-full p-3 border rounded-lg">
-                <input type="password" id="regPassword" placeholder="পাসওয়ার্ড" class="w-full p-3 border rounded-lg">
-                <button onclick="register()" class="w-full bg-green-600 text-white p-3 rounded-lg font-bold hover:bg-green-700">রেজিস্ট্রেশন</button>
-                <p class="text-center text-sm text-gray-600 mt-3">আগে থেকেই অ্যাকাউন্ট আছে? <a href="#" onclick="showLogin()" class="text-blue-600 font-bold">লগইন করুন</a></p>
-            </div>
-        </div>
+        <div class="search-box">
 
-        <!-- ৩. ইউজার ড্যাশবোর্ড (লগইন করার পর দেখাবে) -->
-        <div id="dashboardSection" class="hidden">
-            <h2 class="text-xl font-bold text-gray-800 mb-4">🏠 প্রবাসী ড্যাশবোর্ড</h2>
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-gray-700 font-medium mb-1">সেবার ধরণ</label>
-                    <select id="serviceType" class="w-full p-3 border rounded-lg">
-                        <option value="Visa Check">গ্লোবাল ভিসা স্ট্যাটাস চেক</option>
-                        <option value="Iqama Check">আকামা স্ট্যাটাস চেক</option>
-                        <option value="Passport Renewal">পাসপোর্ট রিনিউয়াল স্ট্যাটাস</option>
-                    </select>
-                </div>
+            <h2>
+                🔎 আপনি কী খুঁজছেন?
+            </h2>
 
-                <div>
-                    <label class="block text-gray-700 font-medium mb-1">পাসপোর্ট বা ট্র্যাকিং নম্বর</label>
-                    <input type="text" id="trackingNumber" placeholder="যেমন: A02345678" class="w-full p-3 border rounded-lg">
-                </div>
+            <div class="search-tabs">
 
-                <button onclick="checkStatus()" class="w-full bg-blue-600 text-white p-3 rounded-lg font-bold hover:bg-blue-700">স্ট্যাটাস চেক করুন (ফি: ৫০ টাকা)</button>
+                <button onclick="searchType('Visa')">
+                    Visa
+                </button>
+
+                <button onclick="searchType('Jobs')">
+                    Jobs
+                </button>
+
+                <button onclick="searchType('Flight')">
+                    Flight
+                </button>
+
             </div>
 
-            <!-- ফলাফল বক্স -->
-            <div id="resultBox" class="mt-6 p-4 bg-gray-50 border rounded-lg hidden">
-                <h3 class="font-bold text-lg text-blue-600 mb-2">ফলাফল:</h3>
-                <p id="resultText" class="text-gray-700"></p>
-            </div>
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="দেশ বা সেবার নাম লিখুন..."
+            >
+
+            <button
+                class="btn primary full"
+                onclick="searchWebsite()"
+            >
+                Search
+            </button>
+
+            <p id="searchResult"></p>
+
         </div>
 
     </div>
 
-    <!-- JavaScript লজিক -->
-    <script>
-        const backendUrl = 'http://localhost:3000/api';
+</section>
 
-        function showRegister() {
-            document.getElementById('loginSection').classList.add('hidden');
-            document.getElementById('registerSection').classList.remove('hidden');
-        }
 
-        function showLogin() {
-            document.getElementById('registerSection').classList.add('hidden');
-            document.getElementById('loginSection').classList.remove('hidden');
-        }
 
-        async function register() {
-            const name = document.getElementById('regName').value;
-            const email = document.getElementById('regEmail').value;
-            const password = document.getElementById('regPassword').value;
+<!-- ================= SERVICES ================= -->
 
-            if(!name || !email || !password) {
-                alert('সবগুলো ঘর পূরণ করুন!');
-                return;
-            }
+<section class="section">
 
-            const res = await fetch(`${backendUrl}/register`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email, password })
-            });
-            const data = await res.json();
-            alert(data.message);
-            if(data.success) showLogin();
-        }
+    <div class="container">
 
-        async function login() {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
+        <div class="section-title">
 
-            const res = await fetch(`${backendUrl}/login`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password })
-            });
-            const data = await res.json();
+            <span>OUR SERVICES</span>
 
-            if(data.success) {
-                alert(data.message);
-                // ড্যাশবোর্ড দেখান
-                document.getElementById('loginSection').classList.add('hidden');
-                document.getElementById('dashboardSection').classList.remove('hidden');
-                document.getElementById('navUser').classList.remove('hidden');
-                document.getElementById('welcomeUser').innerText = `স্বাগতম, ${data.user.name}`;
-            } else {
-                alert(data.message);
-            }
-        }
+            <h2>
+                এক প্ল্যাটফর্মে সব সেবা
+            </h2>
 
-        function logout() {
-            document.getElementById('dashboardSection').classList.add('hidden');
-            document.getElementById('loginSection').classList.remove('hidden');
-            document.getElementById('navUser').classList.add('hidden');
-            document.getElementById('loginEmail').value = '';
-            document.getElementById('loginPassword').value = '';
-        }
+        </div>
 
-        async function checkStatus() {
-            const serviceType = document.getElementById('serviceType').value;
-            const trackingNumber = document.getElementById('trackingNumber').value;
-            const resultBox = document.getElementById('resultBox');
-            const resultText = document.getElementById('resultText');
 
-            if (!trackingNumber) {
-                alert('ট্র্যাকিং নম্বর লিখুন।');
-                return;
-            }
+        <div class="service-grid">
 
-            resultBox.classList.remove('hidden');
-            resultText.innerHTML = 'চেক করা হচ্ছে...';
 
-            const res = await fetch(`${backendUrl}/check-status`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ serviceType, trackingNumber })
-            });
-            const data = await res.json();
+            <!-- VISA -->
 
-            if (data.success) {
-                resultText.innerHTML = `
-                    <b>সেবা:</b> ${data.service}<br>
-                    <b>নম্বর:</b> ${data.number}<br>
-                    <b>স্ট্যাটাস:</b> <span class="text-green-600 font-bold">${data.status}</span><br>
-                    <b>মেয়াদ:</b> ${data.expiryDate}<br>
-                    <b>বার্তা:</b> ${data.message}
-                `;
-            }
-        }
-    </script>
+            <a href="visa.html" class="service-card">
+
+                <div class="service-icon blue">
+                    🛂
+                </div>
+
+                <h3>
+                    Visa Information
+                </h3>
+
+                <p>
+                    দেশভিত্তিক ভিসা,
+                    প্রয়োজনীয় documents এবং
+                    application information।
+                </p>
+
+            </a>
+
+
+            <!-- JOB -->
+
+            <a href="jobs.html" class="service-card">
+
+                <div class="service-icon green">
+                    💼
+                </div>
+
+                <h3>
+                    Overseas Jobs
+                </h3>
+
+                <p>
+                    Factory, Warehouse,
+                    Agriculture, Construction
+                    সহ বিভিন্ন চাকরি।
+                </p>
+
+            </a>
+
+
+            <!-- FLIGHT -->
+
+            <a href="flights.html" class="service-card">
+
+                <div class="service-icon orange">
+                    ✈️
+                </div>
+
+                <h3>
+                    Air Ticket
+                </h3>
+
+                <p>
+                    বিভিন্ন দেশের flight
+                    search ও booking system।
+                </p>
+
+            </a>
+
+
+            <!-- DOCUMENT -->
+
+            <a href="dashboard.html" class="service-card">
+
+                <div class="service-icon purple">
+                    📄
+                </div>
+
+                <h3>
+                    Document Center
+                </h3>
+
+                <p>
+                    Passport, NID,
+                    Certificate এবং অন্যান্য
+                    document management।
+                </p>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= COUNTRIES ================= -->
+
+<section class="countries-section" id="countries">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <span>POPULAR DESTINATIONS</span>
+
+            <h2>
+                জনপ্রিয় দেশ
+            </h2>
+
+        </div>
+
+
+        <div class="country-grid">
+
+
+            <a href="visa.html" class="country-card">
+
+                <div>🇮🇹</div>
+
+                <h3>Italy</h3>
+
+                <small>
+                    Work • Tourist
+                </small>
+
+            </a>
+
+
+            <a href="visa.html" class="country-card">
+
+                <div>🇦🇪</div>
+
+                <h3>UAE</h3>
+
+                <small>
+                    Work • Tourist
+                </small>
+
+            </a>
+
+
+            <a href="visa.html" class="country-card">
+
+                <div>🇸🇦</div>
+
+                <h3>Saudi Arabia</h3>
+
+                <small>
+                    Work • Family
+                </small>
+
+            </a>
+
+
+            <a href="visa.html" class="country-card">
+
+                <div>🇶🇦</div>
+
+                <h3>Qatar</h3>
+
+                <small>
+                    Work • Tourist
+                </small>
+
+            </a>
+
+
+            <a href="visa.html" class="country-card">
+
+                <div>🇯🇵</div>
+
+                <h3>Japan</h3>
+
+                <small>
+                    Work • Student
+                </small>
+
+            </a>
+
+
+            <a href="visa.html" class="country-card">
+
+                <div>🇰🇷</div>
+
+                <h3>South Korea</h3>
+
+                <small>
+                    Work • Student
+                </small>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= ROADMAP ================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <span>HOW IT WORKS</span>
+
+            <h2>
+                বিদেশ যাওয়ার সহজ Roadmap
+            </h2>
+
+        </div>
+
+
+        <div class="steps">
+
+
+            <div class="step">
+
+                <strong>01</strong>
+
+                <h3>
+                    Account খুলুন
+                </h3>
+
+                <p>
+                    নিজের profile তৈরি করুন।
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <strong>02</strong>
+
+                <h3>
+                    Service নির্বাচন
+                </h3>
+
+                <p>
+                    Visa, Job অথবা Ticket
+                    নির্বাচন করুন।
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <strong>03</strong>
+
+                <h3>
+                    Documents দিন
+                </h3>
+
+                <p>
+                    প্রয়োজনীয় documents
+                    upload করুন।
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <strong>04</strong>
+
+                <h3>
+                    Status Track
+                </h3>
+
+                <p>
+                    আপনার application
+                    status দেখুন।
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= CTA ================= -->
+
+<section class="cta">
+
+    <div class="container">
+
+        <h2>
+            আপনার বিদেশযাত্রা শুরু হোক আজ থেকেই
+        </h2>
+
+        <p>
+            Visa, Jobs, Ticket ও অন্যান্য
+            সেবা এক জায়গায়।
+        </p>
+
+        <a href="login.html" class="btn secondary">
+            Create Account
+        </a>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="container footer-grid">
+
+
+        <div>
+
+            <div class="logo">
+                🌍 Probashi<span>Hub</span>
+            </div>
+
+            <p>
+                বিদেশযাত্রার তথ্য ও
+                সেবা প্ল্যাটফর্ম।
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Quick Links
+            </h3>
+
+            <a href="visa.html">
+                Visa
+            </a>
+
+            <a href="jobs.html">
+                Jobs
+            </a>
+
+            <a href="flights.html">
+                Air Ticket
+            </a>
+
+        </div>
+
+
+        <div>
+
+            <h3>
+                Support
+            </h3>
+
+            <a href="#">
+                Help Center
+            </a>
+
+            <a href="#">
+                Contact
+            </a>
+
+            <a href="#">
+                Privacy Policy
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="copyright">
+
+        © 2026 ProbashiHub
+        — All Rights Reserved
+
+    </div>
+
+</footer>
+
+
+<script src="script.js"></script>
+
 </body>
 </html>
