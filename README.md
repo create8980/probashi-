@@ -1,7 +1,11 @@
-expat-portal/
+probashi-hub/
 │
-├── public/
-│   └── index.html       (ফ্রন্টএন্ড ইউজার ইন্টারফেস)
-│
-├── server.js            (ব্যাকএন্ড সার্ভার ও এপিআই লজিক)
-└── package.json         (ডিপেন্ডেন্সি ফাইল)
+├── index.html
+├── visa.html
+├── jobs.html
+├── flights.html
+├── login.html
+├── dashboard.html
+├── admin.html
+├── style.css
+└── script.js
