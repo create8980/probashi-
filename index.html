@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>প্র প্রবাসী সেবা পোর্টাল</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+
+    <!-- Navbar -->
+    <nav class="bg-blue-600 text-white p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold">🌍 প্রবাসী ওয়ান-স্টপ পোর্টাল</h1>
+            <span class="text-sm bg-blue-700 px-3 py-1 rounded">সাপোর্ট ২৪/৭</span>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto max-w-2xl mt-10 p-6 bg-white rounded-xl shadow-lg">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">অনলাইন ভিসা ও পেপারস চেকার</h2>
+
+        <!-- Form -->
+        <div class="space-y-4">
+            <div>
+                <label class="block text-gray-700 font-medium mb-2">সেবার ধরণ নির্বাচন করুন</label>
+                <select id="serviceType" class="w-full p-3 border rounded-lg focus:outline-blue-500">
+                    <option value="Visa Check">ভিসা স্ট্যাটাস চেক (Global Visa)</option>
+                    <option value="Iqama Check">আকামা স্ট্যাটাস চেক</option>
+                    <option value="Passport Renewal">পাসপোর্ট রিনিউয়াল গাইড ও স্ট্যাটাস</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-gray-700 font-medium mb-2">পাসপোর্ট নম্বর বা ট্র্যাকিং আইডি</label>
+                <input type="text" id="trackingNumber" placeholder="যেমন: A02345678" class="w-full p-3 border rounded-lg focus:outline-blue-500">
+            </div>
+
+            <button onclick="checkStatus()" class="w-full bg-blue-600 text-white p-3 rounded-lg font-bold hover:bg-blue-700 transition">
+                স্ট্যাটাস চেক করুন (৫০ টাকা ফি)
+            </button>
+        </div>
+
+        <!-- Result Box -->
+        <div id="resultBox" class="mt-6 p-4 bg-gray-50 border rounded-lg hidden">
+            <h3 class="font-bold text-lg text-blue-600 mb-2">ফলাফল:</h3>
+            <p id="resultText" class="text-gray-700"></p>
+            <button id="payBtn" onclick="makePayment()" class="mt-4 bg-green-600 text-white px-4 py-2 rounded-lg hidden hover:bg-green-700">
+                বিকাশ/নগদ পেমেন্ট সম্পন্ন করুন
+            </button>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script>
+        async function checkStatus() {
+            const serviceType = document.getElementById('serviceType').value;
+            const trackingNumber = document.getElementById('trackingNumber').value;
+            const resultBox = document.getElementById('resultBox');
+            const resultText = document.getElementById('resultText');
+            const payBtn = document.getElementById('payBtn');
+
+            if (!trackingNumber) {
+                alert('দয়া করে ট্র্যাকিং বা পাসপোর্ট নম্বর লিখুন।');
+                return;
+            }
+
+            resultBox.classList.remove('hidden');
+            resultText.innerHTML = 'চেক করা হচ্ছে, দয়া করে অপেক্ষা করুন...';
+
+            try {
+                const response = await fetch('http://localhost:3000/api/check-status', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ serviceType, trackingNumber })
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    resultText.innerHTML = `
+                        <b>সেবা:</b> ${data.service}<br>
+                        <b>নম্বর:</b> ${data.number}<br>
+                        <b>স্ট্যাটাস:</b> <span class="text-green-600 font-bold">${data.status}</span><br>
+                        <b>মেয়াদ শেষ:</b> ${data.expiryDate}<br>
+                        <b>বার্তা:</b> ${data.message}
+                    `;
+                    payBtn.classList.remove('hidden');
+                } else {
+                    resultText.innerHTML = `<span class="text-red-500">${data.message}</span>`;
+                }
+            } catch (error) {
+                resultText.innerHTML = `<span class="text-red-500">সার্ভার কানেকশন এরর! দয়া করে ব্যাকএন্ড চালু করুন।</span>`;
+            }
+        }
+
+        async function makePayment() {
+            try {
+                const response = await fetch('http://localhost:3000/api/process-payment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ amount: 50, paymentMethod: 'bKash', userNumber: '017XXXXXXXX' })
+                });
+                const data = await response.json();
+                alert(data.message + ' (TrxID: ' + data.transactionId + ')');
+            } catch (error) {
+                alert('পেমেন্ট প্রসেস করতে সমস্যা হয়েছে।');
+            }
+        }
+    </script>
+</body>
+</html>
